@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Productos - TechStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #f9fbfd; color: #344050; }
+        .top-navbar { background-color: #2b3440; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .wrapper { display: flex; min-height: calc(100vh - 50px); }
+        .sidebar { width: 250px; background-color: #ffffff; border-right: 1px solid #e3e6ed; padding-top: 20px; }
+        .sidebar-menu { list-style: none; padding: 0; }
+        .sidebar-menu li { padding: 12px 25px; }
+        .sidebar-menu li a { color: #5e6e82; text-decoration: none; font-weight: 600; display: flex; align-items: center; }
+        .sidebar-menu li a i { margin-right: 15px; }
+        .sidebar-menu li.active { background-color: #f1f5f9; }
+        .sidebar-menu li.active a { color: #2c7be5; }
+        
+        .main-content { flex: 1; padding: 40px; }
+        .card-table { background: #fff; border-radius: 8px; border: 1px solid #e3e6ed; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="top-navbar">
+    <div style="font-weight:800; color:#f5803e;">TechStore Admin</div>
+    <div>
+        <a href="/" class="text-white text-decoration-none me-3"><i class="bi bi-shop"></i> Ver Tienda</a>
+        <a href="/logout" class="text-white text-decoration-none"><i class="bi bi-box-arrow-right"></i> Salir</a>
+    </div>
+</div>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="/admin"><i class="bi bi-house-door"></i> Dashboard</a></li>
+            <li class="active"><a href="/admin/productos"><i class="bi bi-box-seam"></i> Productos</a></li>
+            <li><a href="/admin/clientes"><i class="bi bi-people"></i> Clientes</a></li>
+            <li><a href="/admin/ventas"><i class="bi bi-cart-check"></i> Ventas</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 style="font-weight:800;">Gestión de Productos</h2>
+        <p class="mb-4">Administra tu inventario de tecnología.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="row">
+            <!-- Formulario de Nuevo Producto -->
+            <div class="col-md-4">
+                <div class="card-table mb-4">
+                    <h5 style="font-weight:700;">Agregar Nuevo Producto</h5>
+                    <hr>
+                    <form method="POST" action="/admin/productos">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Producto</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Categoría</label>
+                            <input type="text" name="categoria" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Precio ($)</label>
+                            <input type="number" step="0.01" name="precio" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Stock</label>
+                            <input type="number" name="stock" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Guardar Producto</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla de Productos -->
+            <div class="col-md-8">
+                <div class="card-table">
+                    <h5 style="font-weight:700;">Lista de Productos</h5>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in productos %}
+                                <tr>
+                                    <td>{{ p.id_producto }}</td>
+                                    <td>{{ p.nombre_producto }}</td>
+                                    <td><span class="badge bg-secondary">{{ p.categoria }}</span></td>
+                                    <td class="text-success fw-bold">${{ p.precio }}</td>
+                                    <td>{{ p.stock }}</td>
+                                    <td>
+                                        <a href="/admin/productos/delete/{{ p.id_producto }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+                                            <i class="bi bi-trash"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

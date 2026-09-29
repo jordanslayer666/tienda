@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Carrito - TechStore</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        .navbar {
+            padding: 1.2rem 0;
+            background-color: #fff;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+        }
+        .navbar-brand { font-weight: 800; font-size: 1.8rem; color: var(--dark); }
+        .navbar-brand span { color: var(--primary); }
+        
+        .cart-header { font-weight: 800; margin-bottom: 30px; }
+        .cart-item { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); margin-bottom: 15px; display: flex; align-items: center; }
+        .cart-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 20px; }
+        .item-info { flex: 1; }
+        .item-info h5 { margin: 0; font-weight: 700; }
+        .item-info p { margin: 0; color: #64748b; font-size: 0.9rem; }
+        .item-price { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
+        
+        .checkout-box { background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
+        .btn-custom {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            color: #fff; padding: 12px 20px; font-weight: 600; border-radius: 8px; border: none; width: 100%; transition: 0.3s;
+        }
+        .btn-custom:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); color:#fff; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">TechStore<span>.</span></a>
+    <div>
+        <a href="/" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Seguir Comprando</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+    <h2 class="cart-header">Tu Carrito de Compras</h2>
+    
+    <div class="row">
+        <!-- Lista de Productos -->
+        <div class="col-lg-7">
+            {% if productos %}
+                {% for p in productos %}
+                <div class="cart-item">
+                    <img src="{{ url_for('static', filename='img/' ~ p.id_producto ~ '.jpg') }}" alt="{{ p.nombre_producto }}">
+                    <div class="item-info">
+                        <h5>{{ p.nombre_producto }}</h5>
+                        <p>Categoría: {{ p.categoria }}</p>
+                        <p>Cantidad: {{ p.cantidad_comprada }}</p>
+                    </div>
+                    <div class="item-price">
+                        ${{ p.subtotal }}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning text-center rounded-4 p-4">
+                    <i class="bi bi-cart-x fs-1 d-block mb-3"></i>
+                    <h4>Tu carrito está vacío</h4>
+                    <p>Agrega productos desde la tienda para verlos aquí.</p>
+                    <a href="/" class="btn btn-primary mt-2">Ir a la tienda</a>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Formulario de Pago (Checkout) -->
+        <div class="col-lg-5">
+            <div class="checkout-box">
+                <h4 style="font-weight: 800; margin-bottom: 20px;">Resumen del Pedido</h4>
+                <div class="d-flex justify-content-between mb-4">
+                    <span style="font-size: 1.1rem; color: #64748b;">Total a Pagar:</span>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">${{ total }}</span>
+                </div>
+                
+                <hr>
+                
+                <h5 class="mt-4 mb-3" style="font-weight: 700;">Tus Datos</h5>
+                <form action="/procesar_compra" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted small fw-bold">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" required {% if not productos %}disabled{% endif %}>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted small fw-bold">Apellido</label>
+                            <input type="text" name="apellido" class="form-control" required {% if not productos %}disabled{% endif %}>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
+                        <input type="email" name="correo" class="form-control" required {% if not productos %}disabled{% endif %}>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-muted small fw-bold">Teléfono</label>
+                        <input type="text" name="telefono" class="form-control" required {% if not productos %}disabled{% endif %}>
+                    </div>
+                    
+                    <button type="submit" class="btn-custom" {% if not productos %}disabled{% endif %}>
+                        <i class="bi bi-credit-card"></i> Confirmar Compra
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

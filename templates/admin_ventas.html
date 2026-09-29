@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Ventas - TechStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #f9fbfd; color: #344050; }
+        .top-navbar { background-color: #2b3440; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .wrapper { display: flex; min-height: calc(100vh - 50px); }
+        .sidebar { width: 250px; background-color: #ffffff; border-right: 1px solid #e3e6ed; padding-top: 20px; }
+        .sidebar-menu { list-style: none; padding: 0; }
+        .sidebar-menu li { padding: 12px 25px; }
+        .sidebar-menu li a { color: #5e6e82; text-decoration: none; font-weight: 600; display: flex; align-items: center; }
+        .sidebar-menu li a i { margin-right: 15px; }
+        .sidebar-menu li.active { background-color: #f1f5f9; }
+        .sidebar-menu li.active a { color: #2c7be5; }
+        
+        .main-content { flex: 1; padding: 40px; }
+        .card-table { background: #fff; border-radius: 8px; border: 1px solid #e3e6ed; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="top-navbar">
+    <div style="font-weight:800; color:#f5803e;">TechStore Admin</div>
+    <div>
+        <a href="/" class="text-white text-decoration-none me-3"><i class="bi bi-shop"></i> Ver Tienda</a>
+        <a href="/logout" class="text-white text-decoration-none"><i class="bi bi-box-arrow-right"></i> Salir</a>
+    </div>
+</div>
+
+<div class="wrapper">
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="/admin"><i class="bi bi-house-door"></i> Dashboard</a></li>
+            <li><a href="/admin/productos"><i class="bi bi-box-seam"></i> Productos</a></li>
+            <li><a href="/admin/clientes"><i class="bi bi-people"></i> Clientes</a></li>
+            <li class="active"><a href="/admin/ventas"><i class="bi bi-cart-check"></i> Ventas</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <h2 style="font-weight:800;">Historial de Ventas</h2>
+        <p class="mb-4">Registro detallado de todos los pedidos realizados.</p>
+
+        <div class="card-table">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID Venta</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Producto Comprado</th>
+                            <th>Cant.</th>
+                            <th>Total Pagado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for v in ventas %}
+                        <tr>
+                            <td>#{{ v.id_venta }}</td>
+                            <td>{{ v.fecha_venta }}</td>
+                            <td><i class="bi bi-person-fill text-primary"></i> {{ v.nombre }} {{ v.apellido }}</td>
+                            <td class="fw-bold">{{ v.nombre_producto }}</td>
+                            <td>{{ v.cantidad }}</td>
+                            <td class="text-success fw-bold">${{ v.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if not ventas %}
+            <p class="text-center mt-3 text-muted">Aún no hay ventas registradas.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

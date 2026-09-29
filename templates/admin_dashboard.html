@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - TechStore</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fa;
+            color: #344050;
+            overflow-x: hidden;
+        }
+        
+        /* Top Navbar */
+        .top-navbar {
+            background-color: #2b3440;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-navbar .brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #f5803e;
+        }
+        
+        /* Layout */
+        .wrapper {
+            display: flex;
+            min-height: calc(100vh - 50px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            border-right: 1px solid #e3e6ed;
+            padding-top: 20px;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar-menu li {
+            padding: 12px 25px;
+        }
+        .sidebar-menu li a {
+            color: #5e6e82;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        .sidebar-menu li a i {
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+        .sidebar-menu li.active {
+            background-color: #f1f5f9;
+        }
+        .sidebar-menu li.active a {
+            color: #2c7be5;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background-color: #f9fbfd;
+        }
+        .page-title {
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 5px;
+        }
+        .page-subtitle {
+            color: #748194;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Cards */
+        .stat-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e3e6ed;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            margin-bottom: 20px;
+        }
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        .stat-info h3 {
+            margin: 0;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #1a202c;
+        }
+        .stat-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #748194;
+            font-weight: 600;
+        }
+        
+        /* Chart Card */
+        .chart-container {
+            background: #fff;
+            border: 1px solid #e3e6ed;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-navbar">
+    <div class="brand">TechStore Admin</div>
+    <div>
+        <a href="/" class="text-white text-decoration-none me-3"><i class="bi bi-shop"></i> Ver Tienda</a>
+        <a href="/logout" class="text-white text-decoration-none"><i class="bi bi-box-arrow-right"></i> Salir</a>
+    </div>
+</div>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="active"><a href="/admin"><i class="bi bi-house-door"></i> Dashboard</a></li>
+            <li><a href="/admin/productos"><i class="bi bi-box-seam"></i> Productos</a></li>
+            <li><a href="/admin/clientes"><i class="bi bi-people"></i> Clientes</a></li>
+            <li><a href="/admin/ventas"><i class="bi bi-cart-check"></i> Ventas</a></li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="page-title">Panel de control</h2>
+        <p class="page-subtitle">Resumen de tu tienda electrónica.</p>
+        
+        <!-- Tarjetas de Estadísticas -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #e3f9e5; color: #27b643;">
+                        <i class="bi bi-box"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ total_productos }}</h3>
+                        <p>Total de Productos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #fff3e0; color: #f5803e;">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ total_clientes }}</h3>
+                        <p>Clientes Registrados</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #e0f2ff; color: #2c7be5;">
+                        <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>{{ total_ventas }}</h3>
+                        <p>Ventas Realizadas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico Estilo Phoenix Slim -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="chart-container">
+                    <h5 class="mb-4" style="font-weight: 800;">Ventas totales</h5>
+                    <canvas id="ventasChart" height="80"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Inicializar gráfico falso parecido al de la imagen
+    const ctx = document.getElementById('ventasChart').getContext('2d');
+    const ventasChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['01 May', '05 May', '10 May', '15 May', '20 May', '25 May', '30 May'],
+            datasets: [{
+                label: 'Ventas Actuales',
+                data: [100, 200, 150, 600, 700, 300, 400],
+                borderColor: '#2c7be5',
+                backgroundColor: 'rgba(44, 123, 229, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            },
+            {
+                label: 'Mes Anterior',
+                data: [200, 100, 50, 100, 400, 200, 300],
+                borderColor: '#6cb0ff',
+                borderDash: [5, 5],
+                borderWidth: 1.5,
+                fill: false,
+                tension: 0.4
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { display: false },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
