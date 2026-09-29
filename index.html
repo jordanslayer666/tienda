@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore Pro</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        .navbar {
+            padding: 1.2rem 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--dark);
+            letter-spacing: -1px;
+        }
+        .navbar-brand span { color: var(--primary); }
+        .nav-link { font-weight: 600; color: #64748b !important; text-transform: uppercase; margin: 0 15px; }
+        .nav-link:hover, .nav-link.active { color: var(--primary) !important; }
+        
+        .hero-section {
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            height: 70vh; min-height: 500px; display: flex; align-items: center;
+        }
+        .hero-section::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.4));
+        }
+        .hero-content { position: relative; z-index: 1; color: #fff; }
+        .hero-title { font-size: 4.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+        .hero-title span { color: var(--primary); }
+        .btn-custom {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+            color: #fff; padding: 15px 40px; font-weight: 600; border-radius: 5px; text-decoration: none;
+        }
+        .btn-custom:hover { color: #fff; transform: translateY(-3px); box-shadow: 0 15px 25px rgba(37, 99, 235, 0.4); }
+
+        .product-card {
+            border: none; border-radius: 12px; overflow: hidden; background: #fff;
+            transition: all 0.4s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.02); height: 100%;
+        }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .product-img-wrap { height: 280px; overflow: hidden; position: relative; background-color: #f1f5f9; }
+        .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .product-card:hover .product-img-wrap img { transform: scale(1.1); }
+        .category-badge {
+            position: absolute; top: 15px; left: 15px; background: rgba(15, 23, 42, 0.9); color: #fff;
+            font-size: 0.75rem; font-weight: 700; padding: 5px 12px; border-radius: 4px;
+        }
+        .card-price { color: var(--primary); font-weight: 800; font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">TechStore<span>.</span> (Versión Estática)</a>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link active" href="#">Hardware</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Periféricos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Ofertas</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 hero-content">
+                <p class="hero-subtitle" style="color: var(--accent); letter-spacing: 4px; font-weight: 600;">Equípate como un Pro</p>
+                <h1 class="hero-title">Rendimiento que <span>supera</span><br>los límites.</h1>
+                <p class="hero-desc" style="font-size: 1.2rem; margin-bottom: 40px;">Descubre el hardware más potente del mercado en nuestra exhibición estática.</p>
+                <a href="#productos" class="btn-custom">Ver Equipos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="productos" class="container py-5 mt-4">
+    <div class="text-center mb-5">
+        <h2 style="font-weight: 800; font-size: 2.5rem;">Equipos Destacados</h2>
+        <p style="color: #64748b;">Muestra del catálogo de productos (solo diseño HTML/CSS para GitHub Pages)</p>
+    </div>
+    
+    <div class="row mt-4">
+        <!-- Producto 1 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card product-card">
+                <div class="product-img-wrap">
+                    <span class="category-badge">Electrónica</span>
+                    <img src="static/img/1.jpg" alt="Laptop Dell">
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Laptop Dell</h5>
+                    <p class="card-price">$1200.00</p>
+                    <button class="btn btn-primary w-100 fw-bold disabled">
+                        <i class="bi bi-cart-plus me-1"></i> Añadir al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card product-card">
+                <div class="product-img-wrap">
+                    <span class="category-badge">Electrónica</span>
+                    <img src="static/img/2.jpg" alt="Monitor Samsung">
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Monitor Samsung</h5>
+                    <p class="card-price">$250.00</p>
+                    <button class="btn btn-primary w-100 fw-bold disabled">
+                        <i class="bi bi-cart-plus me-1"></i> Añadir al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card product-card">
+                <div class="product-img-wrap">
+                    <span class="category-badge">Accesorios</span>
+                    <img src="static/img/3.jpg" alt="Teclado Mecánico">
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Teclado Mecánico</h5>
+                    <p class="card-price">$80.00</p>
+                    <button class="btn btn-primary w-100 fw-bold disabled">
+                        <i class="bi bi-cart-plus me-1"></i> Añadir al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 4 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card product-card">
+                <div class="product-img-wrap">
+                    <span class="category-badge">Accesorios</span>
+                    <img src="static/img/4.jpg" alt="Mouse Inalámbrico">
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Mouse Inalámbrico</h5>
+                    <p class="card-price">$30.00</p>
+                    <button class="btn btn-primary w-100 fw-bold disabled">
+                        <i class="bi bi-cart-plus me-1"></i> Añadir al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Producto 5 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card product-card">
+                <div class="product-img-wrap">
+                    <span class="category-badge">Mobiliario</span>
+                    <img src="static/img/5.jpg" alt="Silla Gamer">
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold">Silla Gamer</h5>
+                    <p class="card-price">$150.00</p>
+                    <button class="btn btn-primary w-100 fw-bold disabled">
+                        <i class="bi bi-cart-plus me-1"></i> Añadir al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
